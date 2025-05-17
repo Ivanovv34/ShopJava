@@ -1,4 +1,5 @@
-public class Cashier {
+public class Cashier
+{
     private int id;
     private String name;
     private double monthlySalary;

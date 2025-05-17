@@ -1,10 +1,12 @@
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-public class NonFoodProduct extends Product{
+public class NonFoodProduct extends Product
+{
     private static final double MARKUP_PERCENTAGE = 40.0;
 
-    public NonFoodProduct(int id, String name, double deliveryPrice, LocalDate expiryDate) {
+    public NonFoodProduct(int id, String name, double deliveryPrice, LocalDate expiryDate)
+    {
         super(id, name, deliveryPrice, expiryDate, Category.NON_FOOD);
     }
 
