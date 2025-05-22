@@ -3,7 +3,7 @@ import java.util.*;
 
 public class Main {
     private static final Scanner scanner = new Scanner(System.in);
-    private static final Store store = new Store("MyStore", 5, 20);
+    private static final Store store = new Store("HI MARKET", 5, 20);
     private static final Map<Integer, Product> productCatalog = new HashMap<>();
     private static final List<Customer> customers = new ArrayList<>();
     private static final List<Cashier> cashiers = new ArrayList<>();
@@ -42,7 +42,8 @@ public class Main {
         System.out.print("Choose: ");
     }
 
-    private static void addProduct(boolean isFood) {
+    private static void addProduct(boolean isFood)
+    {
         try {
             System.out.print("Enter product ID: ");
             int id = Integer.parseInt(scanner.nextLine());
@@ -50,6 +51,8 @@ public class Main {
             String name = scanner.nextLine();
             System.out.print("Enter delivery price: ");
             double price = Double.parseDouble(scanner.nextLine());
+            System.out.print("Enter markup percentage: ");
+            double markup = Double.parseDouble(scanner.nextLine());
             LocalDate expiry;
             if (isFood)
             {
@@ -64,8 +67,8 @@ public class Main {
             int quantity = Integer.parseInt(scanner.nextLine());
 
             Product p = isFood
-                    ? new FoodProduct(id, name, price, expiry)
-                    : new NonFoodProduct(id, name, price, expiry);
+                    ? new FoodProduct(id, name, price, expiry, markup)
+                    : new NonFoodProduct(id, name, price, expiry, markup);
 
             store.stockProduct(p, quantity);
             productCatalog.put(id, p);

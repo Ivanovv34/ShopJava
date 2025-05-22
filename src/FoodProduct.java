@@ -5,16 +5,16 @@ public class FoodProduct extends Product
 {
     private static final double MARKUP_PERCENTAGE = 25.0;
 
-    public FoodProduct(int id, String name, double deliveryPrice, LocalDate expiryDate)
+    public FoodProduct(int id, String name, double deliveryPrice, LocalDate expiryDate, double markupPercentage)
     {
-        super(id, name, deliveryPrice, expiryDate, Category.FOOD);
+        super(id, name, deliveryPrice, expiryDate, Category.FOOD, markupPercentage);
     }
 
     @Override
     public double getSellingPrice(LocalDate currentDate, int expiryThresholdDays, double discountPercent)
     {
         long daysLeft = ChronoUnit.DAYS.between(currentDate, expiryDate);
-        double basePrice = deliveryPrice * (1 + MARKUP_PERCENTAGE / 100.0);
+        double basePrice = deliveryPrice * (1 + getMarkupPercentage() / 100.0);
 
         if (daysLeft <= expiryThresholdDays && daysLeft > 0)
         {
@@ -23,4 +23,5 @@ public class FoodProduct extends Product
 
         return basePrice;
     }
+
 }

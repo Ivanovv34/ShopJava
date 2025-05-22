@@ -6,14 +6,16 @@ public abstract class Product {
     protected double deliveryPrice;
     protected LocalDate expiryDate;
     protected Category category;
+    private double markupPercentage;
 
-    public Product(int id, String name, double deliveryPrice, LocalDate expiryDate, Category category)
+    public Product(int id, String name, double deliveryPrice, LocalDate expiryDate, Category category,double markupPercentage)
     {
         this.id = id;
         this.name = name;
         this.deliveryPrice = deliveryPrice;
         this.expiryDate = expiryDate;
         this.category = category;
+        this.markupPercentage = markupPercentage;
     }
 
     public int getId()
@@ -40,6 +42,12 @@ public abstract class Product {
     {
         return category;
     }
+
+    public double getMarkupPercentage()
+    {
+        return markupPercentage;
+    }
+
 
     public abstract double getSellingPrice(LocalDate currentDate, int expiryThresholdDays, double discountPercent);
 

@@ -3,23 +3,21 @@ import java.time.temporal.ChronoUnit;
 
 public class NonFoodProduct extends Product
 {
-    private static final double MARKUP_PERCENTAGE = 40.0;
 
-    public NonFoodProduct(int id, String name, double deliveryPrice, LocalDate expiryDate)
+    public NonFoodProduct(int id, String name, double deliveryPrice, LocalDate expiryDate, double markupPercentage)
     {
-        super(id, name, deliveryPrice, expiryDate, Category.NON_FOOD);
+        super(id, name, deliveryPrice, expiryDate, Category.NON_FOOD, markupPercentage);
     }
 
     @Override
-    public double getSellingPrice(LocalDate currentDate, int expiryThresholdDays, double discountPercent)
-    {
+    public double getSellingPrice(LocalDate currentDate, int expiryThresholdDays, double discountPercent) {
         long daysLeft = ChronoUnit.DAYS.between(currentDate, expiryDate);
-        double basePrice = deliveryPrice * (1 + MARKUP_PERCENTAGE / 100);
+        double basePrice = deliveryPrice * (1 + getMarkupPercentage() / 100.0);
 
-        if(daysLeft <= expiryThresholdDays && daysLeft > 0)
-        {
-            basePrice *= (1 - discountPercent / 100);
+        if (daysLeft <= expiryThresholdDays && daysLeft > 0) {
+            basePrice *= (1 - discountPercent / 100.0);
         }
+
         return basePrice;
     }
 }
