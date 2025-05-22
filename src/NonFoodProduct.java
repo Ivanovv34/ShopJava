@@ -1,8 +1,15 @@
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.io.Serializable;
 
-public class NonFoodProduct extends Product
+public class NonFoodProduct extends Product implements Serializable
 {
+    private static final long serialVersionUID = 1L;
+
+    public NonFoodProduct()
+    {
+        super(0, "DefaultNonFood", 0.0, LocalDate.now().plusYears(10), Category.NON_FOOD, 40.0);
+    }
 
     public NonFoodProduct(int id, String name, double deliveryPrice, LocalDate expiryDate, double markupPercentage)
     {

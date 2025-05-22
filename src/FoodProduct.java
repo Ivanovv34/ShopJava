@@ -1,9 +1,16 @@
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.io.Serializable;
 
-public class FoodProduct extends Product
+public class FoodProduct extends Product implements Serializable
 {
+    private static final long serialVersionUID = 1L;
     private static final double MARKUP_PERCENTAGE = 25.0;
+
+    public FoodProduct()
+    {
+        super(0, "DefaultFood", 0.0, LocalDate.now().plusDays(1), Category.FOOD, 25.0);
+    }
 
     public FoodProduct(int id, String name, double deliveryPrice, LocalDate expiryDate, double markupPercentage)
     {

@@ -20,6 +20,7 @@ public class Main {
                 case "5" -> viewReceipts();
                 case "6" -> viewStats();
                 case "7" -> loadReceiptFromFile();
+                case "8" -> store.printSummary();
                 case "0" -> {
                     System.out.println("Exiting...");
                     return;
@@ -38,6 +39,7 @@ public class Main {
         System.out.println("5. View All Receipts");
         System.out.println("6. View Sales & Profit Stats");
         System.out.println("7. Load Receipt from File");
+        System.out.println("8. Print Summary of the Day");
         System.out.println("0. Exit");
         System.out.print("Choose: ");
     }
