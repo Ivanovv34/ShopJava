@@ -1,4 +1,3 @@
-import javax.naming.InsufficientResourcesException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,7 +39,7 @@ public class Store
     public Receipt sell(Cashier cashier, Customer customer, Map<Product, Integer> productToBuy, LocalDate date)
             throws InsufficientStockException
     {
-        List<RecieptItem> receiptItems  = new ArrayList<>();
+        List<ReceiptItem> receiptItems  = new ArrayList<>();
         double total = 0.0;
 
         for(Map.Entry<Product, Integer> entry : productToBuy.entrySet())
@@ -57,11 +56,11 @@ public class Store
 
             if(product.getExpiryDate().isBefore(date))
             {
-                throw new IllegalArgumentException("Product " + product.getName() + " is expired");
+                throw new IllegalArgumentException("Product " + product.getName() + " is already expired");
             }
 
             double price = product.getSellingPrice(date, expiryThresholdDays, discountPercentage);
-            receiptItems.add(new RecieptItem(product, quantity, price));
+            receiptItems.add(new ReceiptItem(product, quantity, price));
             total += price * quantity;
         }
 
@@ -77,7 +76,7 @@ public class Store
             inventory.put(product, inventory.get(product) - entry.getValue());
         }
 
-        Receipt receipt = new Receipt(cashier,receiptItems);
+        Receipt receipt = new Receipt(this.name,cashier,receiptItems);
         receipts.add(receipt);
         System.out.println(receipt);
 
@@ -101,4 +100,10 @@ public class Store
     {
         return receipts.size();
     }
+
+    public List<Receipt> getReceipts()
+    {
+        return receipts;
+    }
+
 }

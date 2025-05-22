@@ -1,10 +1,10 @@
-public class RecieptItem {
+public class ReceiptItem {
 
     private Product product;
     private int quantity;
     private double unitPrice;
 
-    public RecieptItem(Product product, int quantity, double unitPrice)
+    public ReceiptItem(Product product, int quantity, double unitPrice)
     {
         this.product = product;
         this.quantity = quantity;
