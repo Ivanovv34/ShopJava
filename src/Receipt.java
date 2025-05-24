@@ -68,6 +68,12 @@ public class Receipt implements Serializable //tracks and formats all sale detai
             int qty = item.getQuantity();
             double price = item.getTotalPrice();
             sb.append(String.format("%-20s %5d %10.2f\n", name, qty, price));
+
+            double fullPrice = item.getProduct().getDeliveryPrice() * (1 + item.getProduct().getMarkupPercentage() / 100.0);
+            if (Math.abs(fullPrice - price) > 0.01) {
+                sb.append("  → Discount applied (expiry soon)\n");
+            }
+
         }
 
         sb.append("-".repeat(40)).append("\n");
@@ -80,27 +86,38 @@ public class Receipt implements Serializable //tracks and formats all sale detai
 
     public void saveToFile()
     {
-        String fileName = "receipt_" + serialNumber + ".txt";
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName)))
-        {
-            writer.write(this.toString());
+        try {
+            File folder = new File("receipts");
+            folder.mkdirs(); // create the folder if it doesn't exist
+
+            String fileName = "receipts/receipt_" + serialNumber + ".txt";
+            try (PrintWriter out = new PrintWriter(fileName)) {
+                out.println(this.toString());
+            }
+
             System.out.println("Receipt saved to " + fileName);
-        } catch (IOException e)
-        {
+        } catch (IOException e) {
             System.out.println("Failed to save receipt: " + e.getMessage());
         }
     }
 
+
     public void serialize()
     {
-        String fileName = "Receipt_" + serialNumber + ".ser";
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName))) {
-            out.writeObject(this);
-            System.out.println("Receipt serialized to " + fileName);
+        try {
+            File folder = new File("receipts");
+            folder.mkdirs();
+
+            String fileName = "receipts/receipt_" + serialNumber + ".ser";
+            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName))) {
+                out.writeObject(this);
+            }
+
         } catch (IOException e) {
             System.out.println("Failed to serialize receipt: " + e.getMessage());
         }
     }
+
 
     public static Receipt loadFromFile(String fileName)
     {

@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
         @BeforeEach
         public void setup() {
             store = new Store("TestStore", 3, 20); // 3 days threshold, 20% discount
-            cashier = new Cashier(1, "Niki", 1000);
+            cashier = new Cashier(1, "Hris", 1000);
             store.addCashier(cashier);
 
             freshMilk = new FoodProduct(101, "Milk", 2.0, LocalDate.now().plusDays(2), 25.0);

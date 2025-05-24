@@ -75,7 +75,7 @@ public class Store {
         // Generate and save receipt
         Receipt receipt = new Receipt(this.name, cashier, receiptItems);
         receipts.add(receipt);
-        System.out.println(receipt);
+        //System.out.println(receipt);
 
         receipt.saveToFile();
         receipt.serialize();
@@ -84,7 +84,8 @@ public class Store {
     }
 
     // Calculate total revenue from all sales
-    public double getTotalRevenue() {
+    public double getTotalRevenue()
+    {
         return receipts.stream()
                 .mapToDouble(Receipt::getTotalAmount)
                 .sum();
@@ -110,8 +111,28 @@ public class Store {
         return cashiers;
     }
 
+    public void printInventory()
+    {
+        System.out.println("\n=== CURRENT INVENTORY ===");
+        if (inventory.isEmpty())
+        {
+            System.out.println("No products in stock.");
+        } else
+        {
+            for (Map.Entry<Product, Integer> entry : inventory.entrySet())
+            {
+                Product p = entry.getKey();
+                int quantity = entry.getValue();
+                System.out.printf("%-20s Qty: %d\n", p.getName(), quantity);
+            }
+        }
+        System.out.println("==========================\n");
+    }
+
+
     // Print summary of the day
-    public void printSummary() {
+    public void printSummary()
+    {
         System.out.println("\n=== DAILY SUMMARY ===");
         System.out.printf("Total receipts issued: %d\n", getReceiptCount());
         System.out.printf("Total revenue: %.2f\n", getTotalRevenue());
