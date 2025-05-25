@@ -26,12 +26,13 @@ import static org.junit.jupiter.api.Assertions.*;
             shampoo = new NonFoodProduct(201, "Shampoo", 4.0, LocalDate.now().plusDays(10), 40.0);
 
             store.stockProduct(freshMilk, 10);
-            store.stockProduct(expiredJuice, 5);
-            store.stockProduct(shampoo, 8);
+            store.stockProduct(expiredJuice, 7);
+            store.stockProduct(shampoo, 9);
         }
 
         @Test
-        public void testSuccessfulSale() throws Exception {
+        public void testSuccessfulSale() throws Exception
+        {
             Customer customer = new Customer(100);
             Map<Product, Integer> cart = new HashMap<>();
             cart.put(shampoo, 2);
@@ -42,7 +43,8 @@ import static org.junit.jupiter.api.Assertions.*;
         }
 
         @Test
-        public void testInsufficientStockException() {
+        public void testInsufficientStockException()
+        {
             Customer customer = new Customer(100);
             Map<Product, Integer> cart = new HashMap<>();
             cart.put(shampoo, 20); // only 8 in stock
@@ -53,7 +55,8 @@ import static org.junit.jupiter.api.Assertions.*;
         }
 
         @Test
-        public void testExpiredProductNotSold() {
+        public void testExpiredProductNotSold()
+        {
             Customer customer = new Customer(100);
             Map<Product, Integer> cart = new HashMap<>();
             cart.put(expiredJuice, 1);
@@ -66,7 +69,8 @@ import static org.junit.jupiter.api.Assertions.*;
         }
 
         @Test
-        public void testDiscountAppliedNearExpiry() throws Exception {
+        public void testDiscountAppliedNearExpiry() throws Exception
+        {
             Customer customer = new Customer(100);
             Map<Product, Integer> cart = new HashMap<>();
             cart.put(freshMilk, 1); // expires in 2 days, threshold = 3 days
@@ -78,7 +82,8 @@ import static org.junit.jupiter.api.Assertions.*;
         }
 
         @Test
-        public void testNoDiscountWhenExpiryIsFar() throws Exception {
+        public void testNoDiscountWhenExpiryIsFar() throws Exception
+        {
             Customer customer = new Customer(100);
             Map<Product, Integer> cart = new HashMap<>();
             cart.put(shampoo, 1); // expires in 10 days, no discount
@@ -90,7 +95,8 @@ import static org.junit.jupiter.api.Assertions.*;
         }
 
         @Test
-        public void testCustomerCannotAffordPurchase() {
+        public void testCustomerCannotAffordPurchase()
+        {
             Customer customer = new Customer(1); // not enough for anything
             Map<Product, Integer> cart = new HashMap<>();
             cart.put(shampoo, 1);

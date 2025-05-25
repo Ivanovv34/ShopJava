@@ -14,6 +14,7 @@ public class Main {
         {
             printMenu();
             String choice = scanner.nextLine();
+
             switch (choice) {
                 case "1" -> addProduct(true);
                 case "2" -> addProduct(false);
@@ -49,9 +50,11 @@ public class Main {
 
     private static void addProduct(boolean isFood)
     {
-        try {
+        try
+        {
             System.out.print("Enter product ID: ");
             int id = Integer.parseInt(scanner.nextLine());
+
             System.out.print("Enter name: ");
             String name = scanner.nextLine();
 
@@ -76,14 +79,16 @@ public class Main {
             {
                 System.out.print("Enter expiry date (YYYY-MM-DD): ");
                 expiry = LocalDate.parse(scanner.nextLine());
-            } else
+            }
+            else
             {
-                expiry = LocalDate.now().plusYears(10); // default far-future expiry
+                expiry = LocalDate.now().plusYears(10); // default far-future expiry for non-food
             }
 
             System.out.print("Enter quantity: ");
             int quantity = Integer.parseInt(scanner.nextLine());
-            if (quantity <= 0) {
+            if (quantity <= 0)
+            {
                 System.out.println("Quantity must be positive.");
                 return;
             }
@@ -95,17 +100,23 @@ public class Main {
             store.stockProduct(p, quantity);
             productCatalog.put(id, p);
             System.out.println("Product added.");
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             System.out.println("Error: " + e.getMessage());
         }
     }
 
-    private static void addCashier() {
-        try {
+    private static void addCashier()
+    {
+        try
+        {
             System.out.print("Enter cashier ID: ");
             int id = Integer.parseInt(scanner.nextLine());
+
             System.out.print("Enter name: ");
             String name = scanner.nextLine();
+
             System.out.print("Enter salary: ");
             double salary = Double.parseDouble(scanner.nextLine());
             if (salary <= 0)
@@ -118,33 +129,25 @@ public class Main {
             store.addCashier(c);
             cashiers.add(c);
             System.out.println("Cashier added.");
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             System.out.println("Error: " + e.getMessage());
         }
     }
 
-    private static void loadReceiptFromFile()
-    {
-        System.out.print("Enter filename (e.g., receipt_1.ser): ");
-        String fileName = scanner.nextLine();
-        Receipt loaded = Receipt.loadFromFile(fileName);
-        if (loaded != null)
-        {
-            System.out.println("Receipt loaded successfully:");
-            System.out.println(loaded);
-        }
-    }
-
-
     private static void simulateSale()
     {
-        try {
+        try
+        {
             System.out.print("Enter customer balance: ");
             double balance = Double.parseDouble(scanner.nextLine());
-            if (balance <= 0) {
+            if (balance <= 0)
+            {
                 System.out.println("Balance must be positive.");
                 return;
             }
+
             Customer customer = new Customer(balance);
             customers.add(customer);
 
@@ -153,6 +156,7 @@ public class Main {
                 System.out.println("No cashiers available.");
                 return;
             }
+
             Cashier cashier = cashiers.get(0); // Simple: pick first
 
             Map<Product, Integer> cart = new HashMap<>();
@@ -161,18 +165,22 @@ public class Main {
                 System.out.print("Enter product ID to buy (or 0 to finish): ");
                 int pid = Integer.parseInt(scanner.nextLine());
                 if (pid == 0) break;
+
                 Product p = productCatalog.get(pid);
                 if (p == null)
                 {
                     System.out.println("Product not found.");
                     continue;
                 }
+
                 System.out.print("Enter quantity: ");
                 int quantity = Integer.parseInt(scanner.nextLine());
-                if (quantity <= 0) {
+                if (quantity <= 0)
+                {
                     System.out.println("Quantity must be positive.");
                     continue;
                 }
+
                 cart.put(p, quantity);
             }
 
@@ -183,7 +191,8 @@ public class Main {
             receipt.serialize();       // Saves as binary .ser file
 
 
-        } catch (Exception e)
+        }
+            catch (Exception e)
         {
             System.out.println("Sale failed: " + e.getMessage());
         }

@@ -4,6 +4,11 @@ public class Customer
 
     public Customer(double balance)
     {
+        if (balance < 0)
+        {
+            throw new IllegalArgumentException("Balance cannot be negative.");
+        }
+
         this.balance = balance;
     }
 
@@ -14,13 +19,18 @@ public class Customer
 
     public void deduct(double amount) //checking if the customer has enough money
     {
-        if(amount <= balance)
+        if (amount <= 0)
+        {
+            throw new IllegalArgumentException("Amount must be positive.");
+        }
+
+        if (amount <= balance)
         {
             balance -= amount;
         }
         else
         {
-            throw new IllegalArgumentException("Not enough balance");
+            throw new IllegalArgumentException("Not enough balance.");
         }
     }
 }

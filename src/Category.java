@@ -1,3 +1,4 @@
-public enum Category {
+public enum Category
+{
     FOOD,NON_FOOD;
 }

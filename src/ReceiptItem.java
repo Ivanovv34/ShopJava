@@ -10,6 +10,16 @@ public class ReceiptItem implements Serializable
 
     public ReceiptItem(Product product, int quantity, double unitPrice)
     {
+        if (quantity <= 0)
+        {
+            throw new IllegalArgumentException("Quantity must be positive.");
+        }
+
+        if (unitPrice < 0)
+        {
+            throw new IllegalArgumentException("Unit price cannot be negative.");
+        }
+
         this.product = product;
         this.quantity = quantity;
         this.unitPrice = unitPrice;

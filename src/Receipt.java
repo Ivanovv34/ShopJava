@@ -16,8 +16,7 @@ public class Receipt implements Serializable //tracks and formats all sale detai
     private List<ReceiptItem> items;
     private double totalAmount;
 
-    public Receipt(String storeName,Cashier cashier,List<ReceiptItem> items)
-    {
+    public Receipt(String storeName, Cashier cashier, List<ReceiptItem> items) {
         this.storeName = storeName;
         this.serialNumber = counter++;
         this.cashier = cashier;
@@ -26,25 +25,21 @@ public class Receipt implements Serializable //tracks and formats all sale detai
         this.totalAmount = calculateTotal();
     }
 
-    private double calculateTotal()
-    {
+    private double calculateTotal() {
         return items.stream()
                 .mapToDouble(ReceiptItem::getTotalPrice)
                 .sum();
     }
 
-    public int getSerialNumber()
-    {
+    public int getSerialNumber() {
         return serialNumber;
     }
 
-    public double getTotalAmount()
-    {
+    public double getTotalAmount() {
         return totalAmount;
     }
 
-    public List<ReceiptItem> getItems()
-    {
+    public List<ReceiptItem> getItems() {
         return items;
     }
 
@@ -60,22 +55,25 @@ public class Receipt implements Serializable //tracks and formats all sale detai
         sb.append(String.format("Cashier: %s\n", cashier.getName()));
         sb.append("Date/Time: ").append(timestamp.format(formatter)).append("\n");
         sb.append("-".repeat(40)).append("\n");
-        sb.append(String.format("%-20s %5s %10s\n", "Item", "Qty", "Total"));
+        sb.append(String.format("%-20s %5s %10s\n", "Item", "Quantity", "Total"));
         sb.append("-".repeat(40)).append("\n");
 
         for (ReceiptItem item : items) {
             String name = item.getProduct().getName();
-            int qty = item.getQuantity();
+            int quantity = item.getQuantity();
             double price = item.getTotalPrice();
-            sb.append(String.format("%-20s %5d %10.2f\n", name, qty, price));
 
-            double fullPrice = item.getProduct().getDeliveryPrice() * (1 + item.getProduct().getMarkupPercentage() / 100.0);
-            if (Math.abs(fullPrice - price) > 0.01) {
-                sb.append("  → Discount applied (expiry soon)\n");
+            sb.append(String.format("%-20s %5d %10.2f\n", name, quantity, price));
+
+            if (item.getProduct() instanceof FoodProduct) {
+                double fullPrice = item.getProduct().getDeliveryPrice() *
+                        (1 + item.getProduct().getMarkupPercentage() / 100.0);
+
+                if (Math.abs(fullPrice - item.getUnitPrice()) > 0.01) {
+                    sb.append("  → Discount applied (expiry soon)\n");
+                }
             }
-
         }
-
         sb.append("-".repeat(40)).append("\n");
         sb.append(String.format("%-26s %10.2f\n", "TOTAL:", totalAmount));
         sb.append("=".repeat(40)).append("\n");
@@ -84,8 +82,7 @@ public class Receipt implements Serializable //tracks and formats all sale detai
     }
 
 
-    public void saveToFile()
-    {
+    public void saveToFile() {
         try {
             File folder = new File("receipts");
             folder.mkdirs(); // create the folder if it doesn't exist
@@ -102,8 +99,7 @@ public class Receipt implements Serializable //tracks and formats all sale detai
     }
 
 
-    public void serialize()
-    {
+    public void serialize() {
         try {
             File folder = new File("receipts");
             folder.mkdirs();
@@ -112,23 +108,8 @@ public class Receipt implements Serializable //tracks and formats all sale detai
             try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName))) {
                 out.writeObject(this);
             }
-
         } catch (IOException e) {
             System.out.println("Failed to serialize receipt: " + e.getMessage());
         }
     }
-
-
-    public static Receipt loadFromFile(String fileName)
-    {
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName))) {
-            return (Receipt) in.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Failed to load receipt: " + e.getMessage());
-            return null;
-        }
-    }
-
-
-
 }

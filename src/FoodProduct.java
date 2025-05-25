@@ -5,9 +5,8 @@ import java.io.Serializable;
 public class FoodProduct extends Product implements Serializable
 {
     private static final long serialVersionUID = 1L;
-    private static final double MARKUP_PERCENTAGE = 25.0;
 
-    public FoodProduct()
+    public FoodProduct() //only used for serialization
     {
         super(0, "DefaultFood", 0.0, LocalDate.now().plusDays(1), Category.FOOD, 25.0);
     }
@@ -15,6 +14,16 @@ public class FoodProduct extends Product implements Serializable
     public FoodProduct(int id, String name, double deliveryPrice, LocalDate expiryDate, double markupPercentage)
     {
         super(id, name, deliveryPrice, expiryDate, Category.FOOD, markupPercentage);
+
+        if (deliveryPrice <= 0)
+        {
+            throw new IllegalArgumentException("Delivery price must be positive.");
+        }
+
+        if (markupPercentage < 0)
+        {
+            throw new IllegalArgumentException("Markup percentage cannot be negative.");
+        }
     }
 
     @Override

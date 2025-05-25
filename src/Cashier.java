@@ -10,6 +10,11 @@ public class Cashier implements Serializable
 
     public Cashier(int id, String name, double monthlySalary)
     {
+        if (monthlySalary <= 0)
+        {
+            throw new IllegalArgumentException("Monthly salary must be positive.");
+        }
+
         this.id = id;
         this.name = name;
         this.monthlySalary = monthlySalary;

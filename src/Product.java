@@ -1,6 +1,7 @@
 import java.time.LocalDate;
 
-public abstract class Product {
+public abstract class Product
+{
     protected  int id;
     protected String name;
     protected double deliveryPrice;
